@@ -1,18 +1,15 @@
 const puppeteer = require('puppeteer');
-const url = 'https://www.reddit.com';
 
-
-const main = async () => {
-    const state = {}
-    try {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        const html = await page.goto(url).then(() => page.content())
-        state.html = html;
-    } catch (e) {
-        throw new Error(e)
-    }
-    console.log('html', state)
+const getHtml = async url => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    const html = await page.goto(url).then(() => page.content());
+    return html;
 }
 
-main()
+const main = async () => {
+    const url = 'https://www.reddit.com';
+    console.log('html', await getHtml(url).catch(x => console.log('error', x)));
+}
+
+main();
